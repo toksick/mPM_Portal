@@ -63,11 +63,15 @@ $view["slots"]->set("title", "Service");
                     </div>
                     <div class="form-group">
                         <label>Thema:</label>
-                        <select class="form-control">
+                        <select class="form-control" name="thema">                        	
+                            <option>Neu</option>
                         	<?php foreach ($files as $value) {?>
 	                            <option><?= $value?></option>
                         	<?php }?>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="answer1" name="neu" placeholder="Neues Thema">
                     </div>
                     <button type="submit" class="btn btn-default">Absenden</button>
                 </form>

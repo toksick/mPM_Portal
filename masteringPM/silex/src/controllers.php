@@ -5,8 +5,15 @@ use Symfony\Component\HttpFoundation\Request;
 $app->match('/service/', function (Request $request) use($app)
 {
 	if ($request->isMethod('POST')) {
-		$file = file_get_contents('questions/user_questions.json', FILE_USE_INCLUDE_PATH);
-		$json = json_decode($file);
+		$thema = $request->get('thema');
+		$neu = $request->get('neu');
+		if(strcmp($thema, 'Neu') == 0){
+			$json = array();			
+		}
+		else {
+			$file = file_get_contents('questions/'.$thema.'.json', FILE_USE_INCLUDE_PATH);
+			$json = json_decode($file);
+		}
 		
 // 		$objekt = clone $json[0];
 		$object = new stdClass();
@@ -29,8 +36,13 @@ $app->match('/service/', function (Request $request) use($app)
 		$objekt->FIELD11 = "";
 		
 		array_push($json, $objekt);
-		$test2 = var_dump($json);
-		$datei = fopen("questions/test.json", 'w+');
+// 		$test2 = var_dump($json);
+		if(strcmp($thema, 'Neu') == 0){
+			$datei = fopen('questions/'.$neu.'.json', 'w+');
+		}
+		else {
+			$datei = fopen('questions/'.$thema.'.json', 'w+');
+		}
 		$string = json_encode($json, JSON_PRETTY_PRINT);
 		$string = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
 			return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UTF-16BE');
