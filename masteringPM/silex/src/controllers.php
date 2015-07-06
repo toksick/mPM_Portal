@@ -5,11 +5,11 @@ use Symfony\Component\HttpFoundation\Request;
 $app->match('/service/', function (Request $request) use($app)
 {
 	if ($request->isMethod('POST')) {
-		$file = file_get_contents('user_questions.json', FILE_USE_INCLUDE_PATH);
+		$file = file_get_contents('questions/user_questions.json', FILE_USE_INCLUDE_PATH);
 		$json = json_decode($file);
 		
-		$objekt = clone $json[0];
-		
+// 		$objekt = clone $json[0];
+		$object = new stdClass();
 		$frage = $request->get('frage');
 		$rAntwort = $request->get('rAntwort');
 		$bAntwort = $request->get('bAntwort');
@@ -30,7 +30,7 @@ $app->match('/service/', function (Request $request) use($app)
 		
 		array_push($json, $objekt);
 		$test2 = var_dump($json);
-		$datei = fopen("test.json", 'w+');
+		$datei = fopen("questions/test.json", 'w+');
 		$string = json_encode($json, JSON_PRETTY_PRINT);
 		$string = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
 			return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UTF-16BE');
@@ -41,7 +41,15 @@ $app->match('/service/', function (Request $request) use($app)
 	    return $app['templating']->render('success.html.php', array());				
 	}
 	else {
-	    return $app['templating']->render('service.html.php', array());		
+		$folder = scandir('questions');
+		$array = array();
+		
+		$i = 2;
+		foreach (array_slice($folder, 2) as $value) {
+			array_push($array, str_replace(".json", "", $value));
+		}
+		
+	    return $app['templating']->render('service.html.php', array("files" => $array));		
 	}
 });
 

@@ -61,6 +61,14 @@ $view["slots"]->set("title", "Service");
                             <option>3 - schwer</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label>Thema:</label>
+                        <select class="form-control">
+                        	<?php foreach ($files as $value) {?>
+	                            <option><?= $value?></option>
+                        	<?php }?>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-default">Absenden</button>
                 </form>
             </div>
