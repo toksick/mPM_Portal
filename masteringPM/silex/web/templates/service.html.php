@@ -32,12 +32,28 @@ $view["slots"]->set("title", "Service");
             </div>
             <div class="panel-body">
                 <form action="/service/" method="post">
+				    <?php if ($error==true) {?>
+					  <h3 class="text-danger">Es müssen alle Felder ausgefüllt sein!</h3>
+					<?php }?>
                     <div class="form-group">
                         <label for="email">Deine E-Mail Adresse:</label>
                         <input type="email" class="form-control" id="email" placeholder="Email">
                     </div>
                     <hr/>
                     <div class="form-group">
+                        <label>Thema:</label>
+                        <select class="form-control" name="thema">                        	
+                            <option>Neu</option>
+                        	<?php foreach ($files as $value) {?>
+	                            <option><?= $value?></option>
+                        	<?php }?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="topic" name="neu" placeholder="Neues Thema">
+                    </div>
+                    <div class="form-group">
+                    	<label>Frage:</label>
                         <textarea class="form-control" rows="2" id="question" name="frage"
                                   placeholder="Trag hier deine Frage ein"></textarea>
                     </div>
@@ -60,18 +76,6 @@ $view["slots"]->set("title", "Service");
                             <option>2 - mittel</option>
                             <option>3 - schwer</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Thema:</label>
-                        <select class="form-control" name="thema">                        	
-                            <option>Neu</option>
-                        	<?php foreach ($files as $value) {?>
-	                            <option><?= $value?></option>
-                        	<?php }?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="answer1" name="neu" placeholder="Neues Thema">
                     </div>
                     <button type="submit" class="btn btn-default">Absenden</button>
                 </form>

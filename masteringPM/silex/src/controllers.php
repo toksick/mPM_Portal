@@ -7,6 +7,29 @@ $app->match('/service/', function (Request $request) use($app)
 	if ($request->isMethod('POST')) {
 		$thema = $request->get('thema');
 		$neu = $request->get('neu');
+		$frage = $request->get('frage');
+		$rAntwort = $request->get('rAntwort');
+		$bAntwort = $request->get('bAntwort');
+		$cAntwort = $request->get('cAntwort');
+		$dAntwort = $request->get('dAntwort');
+		$email = $request->get('email');
+		
+		if (empty($email)
+				or empty($frage)
+				or empty($rAntwort)
+				or empty($bAntwort)
+				or empty($cAntwort)
+				or empty($dAntwort)) {
+			$folder = scandir('questions');
+			$array = array();
+			
+			$i = 2;
+			foreach (array_slice($folder, 2) as $value) {
+				array_push($array, str_replace(".json", "", $value));
+			}
+			return $app['templating']->render('service.html.php', array("files" => $array, "error" => true));
+		}
+		
 		if(strcmp($thema, 'Neu') == 0){
 			$json = array();			
 		}
@@ -15,14 +38,7 @@ $app->match('/service/', function (Request $request) use($app)
 			$json = json_decode($file);
 		}
 		
-// 		$objekt = clone $json[0];
 		$object = new stdClass();
-		$frage = $request->get('frage');
-		$rAntwort = $request->get('rAntwort');
-		$bAntwort = $request->get('bAntwort');
-		$cAntwort = $request->get('cAntwort');
-		$dAntwort = $request->get('dAntwort');
-		$email = $request->get('email');
 		
 		$objekt->Kategorie = "User Defined";
 		$objekt->Frage = $frage;
@@ -36,7 +52,6 @@ $app->match('/service/', function (Request $request) use($app)
 		$objekt->FIELD11 = "";
 		
 		array_push($json, $objekt);
-// 		$test2 = var_dump($json);
 		if(strcmp($thema, 'Neu') == 0){
 			$datei = fopen('questions/'.$neu.'.json', 'w+');
 		}
@@ -48,8 +63,8 @@ $app->match('/service/', function (Request $request) use($app)
 			return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UTF-16BE');
 		}, $string);
 		
-			fwrite($datei, $string);
-			fclose($datei);
+		fwrite($datei, $string);
+		fclose($datei);
 	    return $app['templating']->render('success.html.php', array());				
 	}
 	else {
@@ -61,7 +76,7 @@ $app->match('/service/', function (Request $request) use($app)
 			array_push($array, str_replace(".json", "", $value));
 		}
 		
-	    return $app['templating']->render('service.html.php', array("files" => $array));		
+	    return $app['templating']->render('service.html.php', array("files" => $array, "error" => false));		
 	}
 });
 
