@@ -1,0 +1,54 @@
+<?php
+$view->extend("layout.html.php");
+$view["slots"]->set("title", "Game");
+
+?>
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Mastering PM - Let's Plan A Project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#272c34">
+    <script src="../js/jquery.min.js"></script>
+    <script>var Game = Game || {};</script>
+    <!--script src="js/teststuff.js"></script-->
+    <script src="../js/Game.question.js"></script>
+    <script src="../js/Game.static.js"></script>
+    <script src="../js/Game.static.isWinner.js"></script>
+    <script src="../js/Game.config.js"></script>
+    <script src="../js/Game.main.js"></script>
+    <script src="../js/Game.creator.js"></script>
+    <script src="../js/Game.player.js"></script>
+	<script src="../js/Game.ki.js"></script>
+    <script src="../js/game.js"></script>
+    <link rel="stylesheet" href="../style.css" type="text/css">
+    <style id="css" class="forJavascriptOnly"></style>
+</head>
+<body id="body">
+<div id="modal">
+    <p>Player Green</p>
+
+    <h3>Frage?</h3>
+
+    <div>
+        <a href="">Antwort 1</a>
+        <a href="">Antwort 2</a>
+        <a href="">Antwort 3</a>
+        <a href="">Antwort 4</a>
+    </div>
+</div>
+<header>
+    <div id="welcome">
+        <img src="../img/logowappen.png" alt="Logo, Mastering PM - Let's Plan A Project">
+
+        <p>Willkommen, w&auml;hle die Spieleranzahl</p>
+        <input type="range" name="numberOfPlayers" min="2" max="6" step="1" id="numberOfPlayers"
+               oninput="Game.player.setPlayerNumber()" onchange="Game.player.setPlayerNumber()" value="2">
+
+        <div class="playerinput"></div>
+    </div>
+</header>
+<div class="game-area-container">
+    <div id="here"></div>
+</div>
+</body>
