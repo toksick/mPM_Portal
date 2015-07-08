@@ -1,4 +1,5 @@
 <?php
+$view->extend("layout.html.php");
 $view["slots"]->set("title", "Service");
 
 ?>
@@ -16,7 +17,7 @@ $view["slots"]->set("title", "Service");
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../form.css">
 </head>
 <body>
 <header>

@@ -86,3 +86,10 @@ $app->match ( '/service/', function (Request $request) use($app) {
 	}
 } );
 
+$app->match ( '//', function (Request $request) use($app) {
+	return $app ['templating']->render ( 'game.html.php', array () );
+} );
+$app->match ( '/game/', function (Request $request) use($app) {
+	return $app ['templating']->render ( 'game.html.php', array () );
+} );
+
