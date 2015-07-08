@@ -5,6 +5,7 @@ use Symfony\Component\HttpFoundation\Request;
 $app->match('/service/', function (Request $request) use($app)
 {
 	if ($request->isMethod('POST')) {
+		
 		$thema = $request->get('thema');
 		$neu = $request->get('neu');
 		$frage = $request->get('frage');
@@ -12,7 +13,8 @@ $app->match('/service/', function (Request $request) use($app)
 		$bAntwort = $request->get('bAntwort');
 		$cAntwort = $request->get('cAntwort');
 		$dAntwort = $request->get('dAntwort');
-		$email = $request->get('email');
+		$email = $request->get('user');
+		$difficult = $request->get('difficult');
 		
 		if (empty($email)
 				or empty($frage)
@@ -30,29 +32,34 @@ $app->match('/service/', function (Request $request) use($app)
 			return $app['templating']->render('service.html.php', array("files" => $array, "error" => true));
 		}
 		
-		if(strcmp($thema, 'Neu') == 0){
-			$json = array();			
+		if(strcmp($thema, '*neu*') == 0){
+			$json = new stdClass();	
+			$json->topic = $neu;
+			$json->description = "";
+			$json->questions = array();
 		}
 		else {
 			$file = file_get_contents('questions/'.$thema.'.json', FILE_USE_INCLUDE_PATH);
 			$json = json_decode($file);
 		}
+		$questions = new stdClass();
 		
-		$object = new stdClass();
+		$questions->Kategorie = "Multiple Choice";
+		$questions->Frage = $frage;
+		$questions->{'Antwort A'} = $rAntwort;
+		$questions->{'Antwort B'} = $bAntwort;
+		$questions->{'Antwort C'} = $cAntwort;
+		$questions->{'Antwort D'} = $dAntwort;
+		$questions->Schwierigkeit = $difficult;
+		$questions->Quelle = "Portal";
+		$questions->{utf8_encode('Überprüft')} = "Nein";
+		$questions->{'Richtige Antwort'} = $rAntwort;
+		$questions->Ersteller = $email;
+		$questions->{'Antwort Buchstabe'} = "A";
 		
-		$objekt->Kategorie = "User Defined";
-		$objekt->Frage = $frage;
-		$objekt->{'Antwort A'} = $rAntwort;
-		$objekt->{'Antwort B'} = $bAntwort;
-		$objekt->{'Antwort C'} = $cAntwort;
-		$objekt->{'Antwort D'} = $dAntwort;
-		$objekt->Schwierigkeit = 1;
-		$objekt->{utf8_encode('Überprüft')} = "Nein";
-		$objekt->Ersteller = utf8_encode($email);
-		$objekt->FIELD11 = "";
+		array_push($json->questions, $questions);		
 		
-		array_push($json, $objekt);
-		if(strcmp($thema, 'Neu') == 0){
+		if(strcmp($thema, '*neu*') == 0){
 			$datei = fopen('questions/'.$neu.'.json', 'w+');
 		}
 		else {

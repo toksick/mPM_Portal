@@ -33,17 +33,17 @@ $view["slots"]->set("title", "Service");
             <div class="panel-body">
                 <form action="/service/" method="post">
 				    <?php if ($error==true) {?>
-					  <h3 class="text-danger">Es müssen alle Felder ausgefüllt sein!</h3>
+					  <h3 class="text-danger">Es m&uuml;ssen alle Felder ausgef&uuml;llt sein!</h3>
 					<?php }?>
                     <div class="form-group">
                         <label for="email">Deine E-Mail Adresse:</label>
-                        <input type="email" class="form-control" id="email" placeholder="Email">
+                        <input type="email" class="form-control" id="email" name="user" placeholder="Email" name="email" >
                     </div>
                     <hr/>
                     <div class="form-group">
                         <label>Thema:</label>
                         <select class="form-control" name="thema">                        	
-                            <option>Neu</option>
+                            <option>*neu*</option>
                         	<?php foreach ($files as $value) {?>
 	                            <option><?= $value?></option>
                         	<?php }?>
@@ -71,10 +71,10 @@ $view["slots"]->set("title", "Service");
                     </div>
                     <div class="form-group">
                         <label>Schwierigkeit:</label>
-                        <select class="form-control">
-                            <option>1 - leicht</option>
-                            <option>2 - mittel</option>
-                            <option>3 - schwer</option>
+                        <select class="form-control" name="difficult">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-default">Absenden</button>
