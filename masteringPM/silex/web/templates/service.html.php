@@ -50,6 +50,9 @@ $view["slots"]->set("title", "Service");
                         </select>
                     </div>
                     <div class="form-group">
+					    <?php if ($neuFalse==true) {?>
+						  <h5 class="text-danger">Das neue Thema darf keine Sonderzeichen enthalten.</h5>
+						<?php }?>
                         <input type="text" class="form-control" id="topic" name="neu" placeholder="Neues Thema">
                     </div>
                     <div class="form-group">
